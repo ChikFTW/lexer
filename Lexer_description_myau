@@ -1,0 +1,97 @@
+r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30, r31, sp, bp
+f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31
+addi, addf, subi, subf,
+muliu, mulis, mulf,
+diviu, divis, divf,
+modiu, modis, divmodiu, divmodis,
+add, or, xor, not, andn, orn, xorn,
+lshift, rshift, cmp, jmp, jmpr, jmpn,
+jmpnr, jmpz, jmpzr,
+jmpp, jmppr, jmpnz, jmpnzr, jmpge, jmpger,
+jmple, jmpler, call, callr, trap, reti,
+mov,
+movu,
+movs,
+mov8u,
+mov8s,
+mov16u,
+mov16s,
+mov32u,
+mov32s,
+mov64u,
+mov64s,
+round;
+
+add   reg1, reg2, reg3
+      reg1 <- reg2+reg3
+
+addi  reg1, reg2, reg3
+      reg1 <- reg2+reg3
+
+subi  reg1, reg2, reg3
+      reg1 <- reg2 - reg3
+
+subf  reg1, reg2, reg3
+      reg1 <- reg2 - reg3
+
+muliu reg1, reg2, reg3
+      reg1 <- (reg2*reg3)
+
+mulif reg1, reg2, reg3
+      reg1 <- (reg2*reg3)
+
+divui reg1, reg2, reg3
+      reg1 <- reg2/reg3
+
+divus reg1, reg2, reg3
+      reg1 <- reg2/reg3
+
+divf  reg1, reg2, reg3
+      reg1 <- reg2/reg3
+
+modiu reg1, reg2, reg3
+      reg1 <- reg2%reg3
+
+modis reg1, reg2, reg3
+      reg1 <- reg2%reg3
+
+divmod reg1, reg2, reg3, reg4
+       reg1 <- reg3/reg4
+       reg2 <- reg3%reg4
+
+divmodis reg1, reg2, reg3, reg4
+         reg1 <- reg3/reg4
+         reg2 <- reg3%reg4
+
+and reg1, reg2, reg3
+    reg1 <- reg2&reg3
+
+or reg1, reg2, reg3
+   reg1 <- reg2|reg3
+
+xor reg1, reg2, reg3
+    reg1 <- reg2^reg3
+
+not reg1, reg2
+    reg1 <- ~reg2
+
+andn reg1, reg2, reg3
+    reg1 <- reg2&(~reg3)
+
+orn reg1, reg2, reg3
+   reg1 <- reg2|(~reg3)
+
+xorn reg1, reg2, reg3
+     reg1 <- reg2^(~reg3)
+
+lshift reg1, reg2, reg3
+       reg1 <- reg2 << reg3
+
+rshift reg1, reg2, reg3
+       reg1 -> reg2 >> reg3
+
+cmp reg1, reg2?????
+
+jmp reg ip <- reg
+
+jmpr reg ip+=reg

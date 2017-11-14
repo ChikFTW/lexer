@@ -1,0 +1,50 @@
+%scaner_name LexerScaner
+%codes_type lexem_code
+
+%codes
+Id
+
+%ident_name Id
+%token_fields
+"usigned __int128 int_val; __float128 float_val;"
+%class_members
+"__int128 integer_value;
+__int128 fractional_part;
+size_t exponent;
+ssize_t exp_sign;
+size_t frac_part_num_digits;"
+%codes
+Equal,           Plus,             Minus,
+Mul,             Div,              Mod,
+LT,              GT,               LEQ,
+GEQ,             Nequal,           FDiv,
+Lor,             LNor,             LNot,
+LAnd,            LNand,            LXor,
+LNXor,           Bor,              BNor,
+BXor,            BNXor,            BAnd,
+BNAnd,           LShift,           RShift,
+BNot,            Pow,              FPow,
+Assign,          Openif_block,     endif_block,
+Open_begin_block,Close_begin_block,cond_op,
+after_label,     Open_elem_mass,       Close_elem_mass,
+Semicolon,       Comma,            Dim_size,
+Colon
+
+%idents {[:Letter:]|[:letter:]|_}{[:Letter:]|[:letter:]|_|[:digits:]}
+
+%impl_additions size_t digit2int(char32_t)
+
+%keywords
+
+%delimiters
+"=" : Equal, "+" : Plus, "-" : Minus, "*" : Mul, "/" : Div, "%": Mod,"<": LT, ">":GT,
+"<=": LEQ, ">=":GEQ, "!=":Nequal,"/.": FDiv, "||": Lor,"!||": LNor, "!":LNot, "&&": LAnd,
+"!&&": LNAnd, "^^": LXor,"!^^": LNXor,"^":BXor,"~^":BNXor,"|":Bor, "~|":BNor,"&":BAnd,
+"~&":BNAnd, "<<":LShift,">>":RShift,"~":BNot, "**":Pow, "**.":FPow,":=":Assign,
+"{":Openif_block,"}":endif_block, "(":Open_begin_block, ")":Close_begin_block,"#":Dim_size, "?":cond_op,";":Semicolon, ",":Comma,
+"::":after_label,"[":Open_elem_mass,"]":Close_elem_mass,":":Colon
+
+%strings "buffer.clean();":"token.code=(buffer.length()==1)?Char:String;"
+{"([:ndq:]$write|""$write)*"}
+
+%numbers
