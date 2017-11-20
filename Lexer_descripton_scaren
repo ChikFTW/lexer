@@ -50,12 +50,18 @@ round
 "{":Openif_block,"}":endif_block, "(":Open_begin_block, ")":Close_begin_block,"#":Dim_size, "?":cond_op,";":Semicolon, ",":Comma,
 "::":after_label,"[":Open_elem_mass,"]":Close_elem_mass,":":Colon
 
-%strings "buffer.clean();":"token.code=(buffer.length()==1)?Char:String;"
-{"([:ndq:]$write|""$write)*"}
+%strings
 
-%numbers
+%numbers "[:digits:]('?[:digits:])*(.[:digits:]('?[:digits:]*))
+?(((S|s)|(D|d)|(E|e)|(Q|q))(+|-)?[:digits:]('?[:digits])*)?|
+0o[:digits:]('?[:odigits:])*|0(b|B)[:bdigits:]('?[:bdigits:])*|
+0(x|X)[:xdigits:]('?[:xdigits:])*"
 
-%action ""
+%action addHexDigit "val_ = (val_ << 4) + digitToInt(ch);"
+%action addDecDigit "val_ = val_ * 10 + digitToInt(ch);"
+%action addBinDigit "val_ = (val_ << 1) + digitToInt(ch);"
+%action addOctDigit "val_ = (val_ << 3) + digitToInt(ch);"
+
 
 digit2int(char32_t c)
 в загаловочный build float -> 128
