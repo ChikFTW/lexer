@@ -65,5 +65,7 @@ bool is_float;"
 %action addBinDigit "val_ = (val_ << 1) + digitToInt(ch);"
 %action addOctDigit "val_ = (val_ << 3) + digitToInt(ch);"
 
+{0(x|X)[:xdigits:]$addHexDigit+ | [:digits:]$addDecDigit+ |
+ 0(b|B)[:bdigits:]$addBinDigit+ | 0(o|O)[:odigits:]$addOctDigit+}
 
 в загаловочный build float -> 128
