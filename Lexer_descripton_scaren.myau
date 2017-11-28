@@ -50,8 +50,8 @@ bool is_float;"
 %idents {[:Letter:]|[:letter:]|_}{[:Letter:]|[:letter:]|_|[:digits:]}
 
 %impl_additions "size_t digit2int(ch) {
-    size_t v = ch - u'0';
-    return (v<=9)? v:(v&ob1101'1111) - 7;
+    size_t v = ch - U'0';
+    return (v<=9)? v:(v&0b1101'1111) - 7;
 }"
 
 %keywords {
