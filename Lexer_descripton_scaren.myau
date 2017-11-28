@@ -83,8 +83,8 @@ bool is_float;"
 %delimiters {
   "=" : Equal, ";" : Semicolon, "," : Comma
   "+" : Plus, "-" : Minus, "*" : Mul, "/" : Div, "%": Mod,
-  "^":BXor,"|":Bor, "&":BAnd, "~":BNot,
-  "<<":LShift,">>":RShift,
+  "^" : xor, "|" : or, "&":add, "~":not,
+  "<<":lshift,">>":rshift,
   "{":Open_func,    "}":Close_func,
   "(":Open_round,   ")":Close_round,
   "[":Open_square,  "]":Close_square
@@ -92,11 +92,11 @@ bool is_float;"
 
 %strings
 
-%numbers "{[:digits:]('?[:digits:])*(.[:digits:]('?[:digits:]*))
+%numbers {[:digits:]('?[:digits:])*(.[:digits:]('?[:digits:]*))
 ?(((S|s)|(D|d)|(E|e)|(Q|q))(+|-)?[:digits:]('?[:digits])*)?|
 0o[:digits:]$addOctDigit+('?[:odigits:])*|
 0(b|B)[:bdigits:]$addBinDigit+('?[:bdigits:])*|
-0(x|X)[:xdigits:]$addHexDigit+('?[:xdigits:])*}"
+0(x|X)[:xdigits:]$addHexDigit+('?[:xdigits:])*}
 
 %action addHexDigit {val_ = (val_ << 4) + digit2int(ch);}
 %action addDecDigit {val_ = val_ * 10 + digit2int(ch);}
