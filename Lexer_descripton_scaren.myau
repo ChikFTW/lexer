@@ -10,14 +10,15 @@ Id
 "usigned __int128 int_val; __float128 float_val;"
 
 %class_members
-"__int128 integer_value;
+"__int128 integer_part;
 __int128 fractional_part;
 size_t exponent;
 ssize_t exp_sign;
 size_t frac_part_num_digits;
-bool is_float;"
+bool is_float;
+char32_t precision"
 
-%codes {
+%codes
   sp,     bp,
   r0,     r1,     r2,       r3,       r4,     r5,
   r6,     r7,     r8,       r9,       r10,    r11,
@@ -45,16 +46,21 @@ bool is_float;"
   mov8u,  mov8s,  mov16u,   mov16s,
   mov32u, mov32s, mov64u,   mov64s,
   round
-}
 
 %idents {[:Letter:]|[:letter:]|_}{[:Letter:]|[:letter:]|_|[:digits:]}
 
 %impl_additions "size_t digit2int(ch) {
     size_t v = ch - U'0';
     return (v<=9)? v:(v&0b1101'1111) - 7;
+}
+
+определить функцию присвоить полям значения при инициализации
+при заершении: token.code получает присижен и флаг ->  header addition
+if(is_float){
+  token.code
 }"
 
-%keywords {
+%keywords
   "addi" : addi,          "addf" : addf,      "subi" : subi,
   "subf" : subf,
   "muliu" : muliu,        "mulis" : mulis,    "mulf" : mulf,
@@ -78,9 +84,8 @@ bool is_float;"
   "mov32u" : mov32u,      "mov32s" : mov32s,  "mov64u" : mov64u,
   "mov64s" : mov64s,
   "round" : round
-}
 
-%delimiters {
+%delimiters
   "=" : Equal, ";" : Semicolon, "," : Comma
   "+" : Plus, "-" : Minus, "*" : Mul, "/" : Div, "%": Mod,
   "^" : xor, "|" : or, "&":add, "~":not,
@@ -88,17 +93,21 @@ bool is_float;"
   "{":Open_func,    "}":Close_func,
   "(":Open_round,   ")":Close_round,
   "[":Open_square,  "]":Close_square
-}
 
-%strings
+%numbers "val_ = 0;
+          token.code = Number;
+          is_float = false" : "token.int_val = val_;"
 
-%numbers {[:digits:]('?[:digits:])*(.[:digits:]('?[:digits:]*))
-?(((S|s)|(D|d)|(E|e)|(Q|q))(+|-)?[:digits:]('?[:digits])*)?|
-0o[:digits:]$addOctDigit+('?[:odigits:])*|
+          %action addHexDigit "val_ = (val_ << 4) + digit2int(ch);"
+          %action addDecDigit "val_ = val_ * 10 + digit2int(ch);"
+          %action addBinDigit "val_ = (val_ << 1) + digit2int(ch);"
+          %action addOctDigit "val_ = (val_ << 3) + digit2int(ch);"
+          %action setIsFloat "is_float = true"
+          %action addDigitToDegree ""
+          %action addDecToFrac "val_ = val_ /10 + digit2int(ch);"
+
+{[:digits:]$addDecDigit+('?[:digits:]$addDecDigit+)*(.$setIsFloat+[:digits:]$addDecDigit+('?[:digits:]$addDecDigit+*))
+?(((S|s)|(D|d)|(E|e)|(Q|q))$addDecToFrac+(+|-)?[:digits:]к экспоненте ('?[:digits]$addDecDigit+)*)?|
+0o[:digits:]%addDecDigit+('?[:odigits:]$addOctDigit+)*|
 0(b|B)[:bdigits:]$addBinDigit+('?[:bdigits:])*|
 0(x|X)[:xdigits:]$addHexDigit+('?[:xdigits:])*}
-
-%action addHexDigit {val_ = (val_ << 4) + digit2int(ch);}
-%action addDecDigit {val_ = val_ * 10 + digit2int(ch);}
-%action addBinDigit {val_ = (val_ << 1) + digit2int(ch);}
-%action addOctDigit {val_ = (val_ << 3) + digit2int(ch);}
