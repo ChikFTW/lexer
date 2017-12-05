@@ -56,9 +56,8 @@ char32_t precision"
 
 определить функцию присвоить полям значения при инициализации
 при заершении: token.code получает присижен и флаг ->  header addition
-if(is_float){
-  token.code
-}"
+
+  "
 
 %keywords
   "addi" : addi,          "addf" : addf,      "subi" : subi,
@@ -96,7 +95,16 @@ if(is_float){
 
 %numbers "val_ = 0;
           token.code = Number;
-          is_float = false" : "token.int_val = val_;"
+          is_float = false"
+          :
+          "token.int_val = val_;
+
+          if(is_float){
+            token.float_val=build_float;
+          } else {
+            token.int_val=integer_part;
+          }"
+          :
 
           %action addHexDigit "val_ = (val_ << 4) + digit2int(ch);"
           %action addDecDigit "val_ = val_ * 10 + digit2int(ch);"
@@ -104,7 +112,7 @@ if(is_float){
           %action addOctDigit "val_ = (val_ << 3) + digit2int(ch);"
           %action setIsFloat "is_float = true"
           %action addDigitToDegree ""
-          %action addDecToFrac "val_ = val_ /10 + digit2int(ch);"
+          %action addDecToFrac "val_ = val_ / 10 + digit2int(ch);"
 
 {[:digits:]$addDecDigit+('?[:digits:]$addDecDigit+)*(.$setIsFloat+[:digits:]$addDecDigit+('?[:digits:]$addDecDigit+*))
 ?(((S|s)|(D|d)|(E|e)|(Q|q))$addDecToFrac+(+|-)?[:digits:]к экспоненте ('?[:digits]$addDecDigit+)*)?|
