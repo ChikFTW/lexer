@@ -54,7 +54,7 @@ char32_t precision;"
   Open_func, Close_func,
   Open_round, Close_round,
   Open_square, Close_square,
-  Integer, Single, Double, DoubleExtended, DoubleFour
+  Integer, Single, Double, Extended, Quatro
 
 %idents {[:Letter:]|[:letter:]|_}{[:Letter:]|[:letter:]|_|[:digits:]}
 
@@ -64,17 +64,34 @@ char32_t precision;"
   size_t digit2int(char32_t ch) {
     size_t v = ch - U'0';
     return (v<=9)? v:(v&0b1101'1111) - 7;
+  }
   __int128 setexp(char32_t ch) {
     return (ch == '-')? -1 : 1;
   }
-  __float128 build_float(){
 
+  __float128 lexem_code: build_float(){
+    return integer_part + fractional_part*powq(10,-frac_part_num_digits)+exp_sign*exponent;
   }
-}
 
-определить функцию присвоить полям значения при инициализации
-при заершении: token.code получает присижен и флаг ->  header addition
-
+  lexem_code precision2code(char32_t ch){
+    switch (ch) {
+      case: 'S':
+        return Single;
+        break;
+      case: 'D':
+        return Double;
+        break;
+      case: 'E':
+        return Extended;
+        break;
+      case: 'Q':
+        return Quatro;
+        break;
+      default:
+        return Single;
+        break;
+    }
+  }
 "
 
 %keywords
@@ -118,18 +135,18 @@ char32_t precision;"
           fractional_part = 0;
           exponent = 1;
           exp_sign = 1;
-          frac_part_num_digits = 0;"
+          frac_part_num_digits = 0;
+          token.code = Integer;"
           :
           "
           if(is_float){
             token.float_val=build_float();
-            token.code = precision2code();
+            token.code = precision2code(precision);
           } else {
             token.int_val=integer_part;
             token.code = Integer;
           }"
           :
-
           %action addHexDigit "integer_part = (integer_part << 4) + digit2int(ch);"
           %action addDecDigit "integer_part = integer_part * 10 + digit2int(ch);"
           %action addBinDigit "integer_part = (integer_part << 1) + digit2int(ch);"
@@ -139,9 +156,11 @@ char32_t precision;"
           %action addDecToFrac "fractional_part = fractional_part / 10 + digit2int(ch);
                                 frac_part_num_digits +=;"
           %action setExpSign "exp_sign = setexp(ch);"
+          %action setPrecision "precision = ch;
+                                is_float = true;"
 
 {[:digits:]$addDecDigit('?[:digits:]$addDecDigit)*(.$setIsFloat[:digits:]$addDecToFrac('?[:digits:]$addDecToFrac*))
-?(((S|s)|(D|d)|(E|e)|(Q|q))$addDecToFrac(+|-)$setExpSign?[:digits:]$addDigitToDegree('?[:digits]$addDigitToDegree)*)?|
-0(o|O)[:odigits:]$addOctDigit('?[:odigits:]$addOctDigit+)*|
+?(((S|s)|(D|d)|(E|e)|(Q|q))$setPrecision(+|-)$setExpSign?[:digits:]$addDigitToDegree('?[:digits]$addDigitToDegree)*)?|
+0(o|O)[:odigits:]$addOctDigit('?[:odigits:]$addOctDigit)*|
 0(b|B)[:bdigits:]$addBinDigit('?[:bdigits:]$addBinDigit)*|
 0(x|X)[:xdigits:]$addHexDigit('?[:xdigits:]$addHexDigit)*}
