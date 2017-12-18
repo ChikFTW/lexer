@@ -58,7 +58,7 @@ char32_t precision;"
 
   size_t digit2int(char32_t ch) {
     size_t v = ch - U'0';
-    return (v<=9)? v:(v&0b1101'1111) - 7;
+    return (v<=9)? v : (v&0b1101'1111) - 7;
   }
   __int128 setexp(char32_t ch) {
     return (ch == '-')? -1 : 1;
@@ -141,15 +141,15 @@ char32_t precision;"
             token.int_val=integer_part;
             token.code = Integer;
           }"
-          :
+
           %action addHexDigit "integer_part = (integer_part << 4) + digit2int(ch);"
           %action addDecDigit "integer_part = integer_part * 10 + digit2int(ch);"
           %action addBinDigit "integer_part = (integer_part << 1) + digit2int(ch);"
           %action addOctDigit "integer_part = (integer_part << 3) + digit2int(ch);"
           %action setIsFloat "is_float = true;"
           %action addDigitToDegree "exponent = exponent * 10 + digit2int(ch);"
-          %action addDecToFrac "fractional_part = fractional_part / 10 + digit2int(ch);
-                                frac_part_num_digits +=;"
+          %action addDecToFrac "{fractional_part = fractional_part / 10 + digit2int(ch);
+                                frac_part_num_digits +=;}"
           %action setExpSign "exp_sign = setexp(ch);"
           %action setPrecision "precision = ch;
                                 is_float = true;"
