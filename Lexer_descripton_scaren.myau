@@ -1,9 +1,6 @@
 %scaner_name LexerScaner
 %codes_type lexem_code
 
-%codes
-Id
-
 %ident_name Id
 
 %token_fields
@@ -49,8 +46,6 @@ char32_t precision;"
   round,
   Equal, Semicolon,  Comma,
   Plus, Minus, Mul, Div, Mod,
-  xor, or, add, not,
-  lshift,rshift,
   Open_func, Close_func,
   Open_round, Close_round,
   Open_square, Close_square,
