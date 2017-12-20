@@ -34,8 +34,8 @@ enum lexem_code : unsigned short {
     muliu,       mulis,      mulf,       
     diviu,       divis,      divf,       
     modiu,       modis,      divmodiu,   
-    divmodis,    add,        or,         
-    xor,         not,        andn,       
+    divmodis,    add,        orr,         
+    xorr,         nott,        andn,       
     orn,         xorn,       lshift,     
     rshift,      cmp,        jmp,        
     jmpr,        jmpn,       jmpnr,      
@@ -60,16 +60,16 @@ struct Lexem_info{
     lexem_code code;
     union{
         size_t    ident_index;
-usigned __int128 int_val;
-__float128 float_val;
+	unsigned __int128 int_val;
+	__float128 float_val;
     };
 };
 
-class LexerScaner : public Abstract_scaner<Lexem_info> {
+class LexerScaner : public Scaner<Lexem_info> {
 public:
     LexerScaner() = default;
     LexerScaner(Location* location, const Errors_and_tries& et) :
-        Abstract_scaner<Lexem_info>(location, et) {};
+        Scaner<Lexem_info>(location, et) {};
     LexerScaner(const LexerScaner& orig) = default;
     virtual ~LexerScaner() = default;
     virtual Lexem_info current_lexem();

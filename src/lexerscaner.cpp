@@ -11,12 +11,12 @@
 size_t digit2int(char32_t ch) {
     size_t v = ch - U'0';
     return (v<=9)? v : (v&0b1101'1111) - 7;
-}
+};
   __int128 setexp(char32_t ch) {
     return (ch == '-')? -1 : 1;
   }
 
-  __float128 lexem_code: build_float(){
+  __float128 lexem_code:: build_float(){
     return integer_part + fractional_part*powq(10,-frac_part_num_digits)+exp_sign*exponent;
   }
 

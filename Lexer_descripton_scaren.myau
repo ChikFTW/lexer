@@ -4,7 +4,7 @@
 %ident_name Id
 
 %token_fields
-"usigned __int128 int_val;
+"unsigned __int128 int_val;
 __float128 float_val;"
 
 %class_members
@@ -140,7 +140,7 @@ char32_t precision;"
           } else {
             token.int_val=integer_part;
             token.code = Integer;
-          }"
+          }"	
           %action addHexDigit "integer_part = (integer_part << 4) + digit2int(ch);"
           %action addDecDigit "integer_part = integer_part * 10 + digit2int(ch);"
           %action addBinDigit "integer_part = (integer_part << 1) + digit2int(ch);"
