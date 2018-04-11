@@ -54,7 +54,7 @@ char32_t precision;"
 %idents {[:Letter:]|[:letter:]|_}{[:Letter:]|[:letter:]|_|[:digits:]}
 
 %impl_additions "
-  #include <quadmath>
+  #include <quadmath.h>
 
   size_t digit2int(char32_t ch) {
     size_t v = ch - U'0';
@@ -152,7 +152,7 @@ char32_t precision;"
           %action setPrecision "precision = ch; is_float = true;"
 	                                
 {[:digits:]$addDecDigit('?[:digits:]$addDecDigit)*(.$setIsFloat[:digits:]$addDecToFrac('?[:digits:]$addDecToFrac*))
-?(((S|s)|(D|d)|(E|e)|(Q|q))$setPrecision+|-$setExpSign?[:digits:]$addDigitToDegree('?[:digits:]$addDigitToDegree)*)?|
+?(((S|s)|(D|d)|(E|e)|(Q|q))$setPrecision(\+|-)$setExpSign?[:digits:]$addDigitToDegree('?[:digits:]$addDigitToDegree)*)?|
 0o[:odigits:]$addOctDigit('?[:odigits:]$addOctDigit)*|
 0(b|B)[:bdigits:]$addBinDigit('?[:bdigits:]$addBinDigit)*|
 0(x|X)[:xdigits:]$addHexDigit('?[:xdigits:]$addHexDigit)*}

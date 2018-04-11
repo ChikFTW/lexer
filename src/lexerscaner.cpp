@@ -3,20 +3,21 @@
 #include "../include/search_char.h"
 #include "../include/belongs.h"
 #include <set>
-#include <string.h>
+#include <string>
 #include <vector>
-#include "../include/operation_with_sets.h"
-#include <quadmath.h>
+#include "../include/operations_with_sets.h"
 
-size_t digit2int(char32_t ch) {
+  #include <quadmath>
+
+  size_t digit2int(char32_t ch) {
     size_t v = ch - U'0';
     return (v<=9)? v : (v&0b1101'1111) - 7;
-};
+  }
   __int128 setexp(char32_t ch) {
     return (ch == '-')? -1 : 1;
   }
 
-  __float128 lexem_code:: build_float(){
+  __float128 lexem_code: build_float(){
     return integer_part + fractional_part*powq(10,-frac_part_num_digits)+exp_sign*exponent;
   }
 
@@ -54,10 +55,10 @@ LexerScaner::Final_proc LexerScaner::finals[] = {
 
 enum Category {
     SPACES,     DELIMITER_BEGIN, 
-    NUMBER0,    NUMBER5,         
-    NUMBER6,    NUMBER_BEGIN,    
+    NUMBER0,    NUMBER4,         
+    NUMBER5,    NUMBER_BEGIN,    
     NUMBER1,    NUMBER2,         
-    NUMBER3,    NUMBER4,         
+    NUMBER3,    NUMBER6,         
     NUMBER7,    NUMBER8,         
     NUMBER9,    NUMBER10,        
     NUMBER11,   IDKEYWORD_BEGIN, 
@@ -75,26 +76,26 @@ static const std::map<char32_t, uint32_t> categories_table = {
     {'\X14', 1},    {'\X15', 1},    {'\X16', 1},    {'\X17', 1},    
     {'\X18', 1},    {'\X19', 1},    {'\X1a', 1},    {'\X1b', 1},    
     {'\X1c', 1},    {'\X1d', 1},    {'\X1e', 1},    {'\X1f', 1},    
-    {' ', 1},       {'%', 2},       {'&', 2},       {', 512},       
-    {'(', 2},       {')', 2},       {'*', 2},       {'+', 2},       
-    {',', 2},       {'-', 258},     {'.', 2048},    {'/', 2},       
-    {'0', 263228},  {'1', 525432},  {'2', 525424},  {'3', 525424},  
-    {'4', 525424},  {'5', 263280},  {'6', 525424},  {'7', 263280},  
-    {'8', 525408},  {'9', 263264},  {';', 2},       {'<', 2},       
-    {'=', 2},       {'>', 2},       {'A', 361472},  {'B', 365568},  
-    {'C', 361472},  {'D', 361600},  {'E', 361600},  {'F', 361472},  
+    {' ', 1},       {'%', 2},       {'&', 2},       {', 256},       
+    {'(', 2},       {')', 2},       {'*', 2},       {'+', 16386},   
+    {',', 2},       {'-', 16386},   {'.', 1024},    {'/', 2},       
+    {'0', 262716},  {'1', 524920},  {'2', 524912},  {'3', 524912},  
+    {'4', 524912},  {'5', 262768},  {'6', 524912},  {'7', 262768},  
+    {'8', 524896},  {'9', 262752},  {';', 2},       {'<', 2},       
+    {'=', 2},       {'>', 2},       {'A', 360960},  {'B', 363008},  
+    {'C', 360960},  {'D', 361088},  {'E', 361088},  {'F', 360960},  
     {'G', 360448},  {'H', 360448},  {'I', 360448},  {'J', 360448},  
     {'K', 360448},  {'L', 360448},  {'M', 360448},  {'N', 360448},  
     {'O', 360448},  {'P', 360448},  {'Q', 360576},  {'R', 360448},  
     {'S', 360576},  {'T', 360448},  {'U', 360448},  {'V', 360448},  
-    {'W', 360448},  {'X', 368640},  {'Y', 360448},  {'Z', 360448},  
+    {'W', 360448},  {'X', 364544},  {'Y', 360448},  {'Z', 360448},  
     {'[', 2},       {']', 2},       {'^', 2},       {'_', 360448},  
-    {'a', 689152},  {'b', 627712},  {'c', 427008},  {'d', 689280},  
-    {'e', 623744},  {'f', 623616},  {'g', 622592},  {'h', 622592},  
+    {'a', 688640},  {'b', 625152},  {'c', 426496},  {'d', 688768},  
+    {'e', 623232},  {'f', 623104},  {'g', 622592},  {'h', 622592},  
     {'i', 622592},  {'j', 425984},  {'k', 360448},  {'l', 688128},  
-    {'m', 688128},  {'n', 688128},  {'o', 704512},  {'p', 622592},  
+    {'m', 688128},  {'n', 688128},  {'o', 696320},  {'p', 622592},  
     {'q', 360576},  {'r', 688128},  {'s', 688256},  {'t', 688128},  
-    {'u', 622592},  {'v', 622592},  {'w', 360448},  {'x', 434176},  
+    {'u', 622592},  {'v', 622592},  {'w', 360448},  {'x', 430080},  
     {'y', 360448},  {'z', 622592},  {'{', 2},       {'|', 2},       
     {'}', 2},       {'~', 2},       {'Ё', 360448}, {'А', 360448}, 
     {'Б', 360448}, {'В', 360448}, {'Г', 360448}, {'Д', 360448}, 
@@ -197,7 +198,7 @@ static const Keyword_list_elem kwlist[] = {
     {U"movs", movs},         {U"movu", movu},         
     {U"mulf", mulf},         {U"mulis", mulis},       
     {U"muliu", muliu},       {U"not", not},           
-    {U"or", orr},             {U"orn", orn},           
+    {U"or", or},             {U"orn", orn},           
     {U"reti", reti},         {U"round", round},       
     {U"rshift", rshift},     {U"subf", subf},         
     {U"subi", subi},         {U"trap", trap},         
@@ -312,7 +313,7 @@ static const Elem delim_jump_table[] = {
     {const_cast<char32_t*>(U""), Div, 0},          
     {const_cast<char32_t*>(U""), Mod, 0},          
     {const_cast<char32_t*>(U""), xor, 0},          
-    {const_cast<char32_t*>(U""), orr, 0},           
+    {const_cast<char32_t*>(U""), or, 0},           
     {const_cast<char32_t*>(U""), add, 0},          
     {const_cast<char32_t*>(U""), not, 0},          
     {const_cast<char32_t*>(U"<"), Unknown, 13},    
@@ -346,8 +347,7 @@ bool LexerScaner::delimiter_proc(){
 }
 
 static const std::set<size_t> final_states_for_numbers = {
-    1, 2,  3, 4, 5, 6, 7, 8, 
-    9, 10
+    1, 2, 3, 4, 5, 6, 7, 8
 };
 
 bool LexerScaner::number_proc(){
@@ -357,211 +357,177 @@ bool LexerScaner::number_proc(){
         case 0:
             if(belongs(NUMBER0, char_categories)){
                 integer_part = integer_part * 10 + digit2int(ch);
-                state = 10;
+                state = 8;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER1, char_categories)){
                 integer_part = integer_part * 10 + digit2int(ch);
-                state = 9;
+                state = 7;
                 there_is_jump = true;
             }
 
             break;
         case 1:
-            if(belongs(NUMBER2, char_categories)){
-                precision = ch; is_float = true;
+            if(belongs(NUMBER_BEGIN, char_categories)){
+                fractional_part = fractional_part / 10 + digit2int(ch); frac_part_num_digits += 1;
                 state = 1;
+                there_is_jump = true;
+            }
+             else if(belongs(NUMBER2, char_categories)){
+                precision = ch; is_float = true;
+                state = 15;
                 there_is_jump = true;
             }
 
             break;
         case 2:
             if(belongs(NUMBER3, char_categories)){
-                exp_sign = setexp(ch);
-                state = 14;
+                state = 1;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER_BEGIN, char_categories)){
                 fractional_part = fractional_part / 10 + digit2int(ch); frac_part_num_digits += 1;
-                state = 8;
+                state = 1;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER2, char_categories)){
                 precision = ch; is_float = true;
-                state = 1;
+                state = 15;
                 there_is_jump = true;
             }
 
             break;
         case 3:
-            if(belongs(NUMBER4, char_categories)){
-                state = 2;
+            if(belongs(NUMBER3, char_categories)){
+                state = 9;
                 there_is_jump = true;
             }
-             else if(belongs(NUMBER3, char_categories)){
-                exp_sign = setexp(ch);
-                state = 14;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER_BEGIN, char_categories)){
-                fractional_part = fractional_part / 10 + digit2int(ch); frac_part_num_digits += 1;
-                state = 8;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER2, char_categories)){
-                precision = ch; is_float = true;
-                state = 1;
+             else if(belongs(NUMBER4, char_categories)){
+                integer_part = (integer_part << 1) + digit2int(ch);
+                state = 3;
                 there_is_jump = true;
             }
 
             break;
         case 4:
-            if(belongs(NUMBER4, char_categories)){
-                state = 11;
+            if(belongs(NUMBER3, char_categories)){
+                state = 10;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER5, char_categories)){
-                integer_part = (integer_part << 1) + digit2int(ch);
+                integer_part = (integer_part << 3) + digit2int(ch);
                 state = 4;
                 there_is_jump = true;
             }
 
             break;
         case 5:
-            if(belongs(NUMBER4, char_categories)){
+            if(belongs(NUMBER3, char_categories)){
                 state = 12;
                 there_is_jump = true;
             }
-             else if(belongs(NUMBER6, char_categories)){
-                integer_part = (integer_part << 3) + digit2int(ch);
+             else if(belongs(NUMBER_BEGIN, char_categories)){
+                exponent = exponent * 10 + digit2int(ch);
                 state = 5;
                 there_is_jump = true;
             }
 
             break;
         case 6:
-            if(belongs(NUMBER4, char_categories)){
+            if(belongs(NUMBER3, char_categories)){
                 state = 14;
                 there_is_jump = true;
             }
-             else if(belongs(NUMBER_BEGIN, char_categories)){
-                exponent = exponent * 10 + digit2int(ch);
+             else if(belongs(NUMBER6, char_categories)){
+                integer_part = (integer_part << 4) + digit2int(ch);
                 state = 6;
                 there_is_jump = true;
             }
 
             break;
         case 7:
-            if(belongs(NUMBER4, char_categories)){
-                state = 16;
+            if(belongs(NUMBER3, char_categories)){
+                state = 13;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER7, char_categories)){
-                integer_part = (integer_part << 4) + digit2int(ch);
+                is_float = true;
+                state = 11;
+                there_is_jump = true;
+            }
+             else if(belongs(NUMBER_BEGIN, char_categories)){
+                integer_part = integer_part * 10 + digit2int(ch);
                 state = 7;
+                there_is_jump = true;
+            }
+             else if(belongs(NUMBER2, char_categories)){
+                precision = ch; is_float = true;
+                state = 15;
                 there_is_jump = true;
             }
 
             break;
         case 8:
-            if(belongs(NUMBER4, char_categories)){
-                state = 14;
+            if(belongs(NUMBER3, char_categories)){
+                state = 13;
                 there_is_jump = true;
             }
-             else if(belongs(NUMBER3, char_categories)){
-                exp_sign = setexp(ch);
-                state = 14;
+             else if(belongs(NUMBER7, char_categories)){
+                is_float = true;
+                state = 11;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER_BEGIN, char_categories)){
-                fractional_part = fractional_part / 10 + digit2int(ch); frac_part_num_digits += 1;
-                state = 8;
+                integer_part = integer_part * 10 + digit2int(ch);
+                state = 7;
+                there_is_jump = true;
+            }
+             else if(belongs(NUMBER8, char_categories)){
+                state = 9;
                 there_is_jump = true;
             }
              else if(belongs(NUMBER2, char_categories)){
                 precision = ch; is_float = true;
-                state = 1;
+                state = 15;
+                there_is_jump = true;
+            }
+             else if(belongs(NUMBER9, char_categories)){
+                state = 14;
+                there_is_jump = true;
+            }
+             else if(belongs(NUMBER10, char_categories)){
+                state = 10;
                 there_is_jump = true;
             }
 
             break;
         case 9:
             if(belongs(NUMBER4, char_categories)){
-                state = 15;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER3, char_categories)){
-                exp_sign = setexp(ch);
-                state = 14;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER8, char_categories)){
-                is_float = true;
-                state = 13;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER_BEGIN, char_categories)){
-                integer_part = integer_part * 10 + digit2int(ch);
-                state = 9;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER2, char_categories)){
-                precision = ch; is_float = true;
-                state = 1;
+                integer_part = (integer_part << 1) + digit2int(ch);
+                state = 3;
                 there_is_jump = true;
             }
 
             break;
         case 10:
-            if(belongs(NUMBER4, char_categories)){
-                state = 15;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER3, char_categories)){
-                exp_sign = setexp(ch);
-                state = 14;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER8, char_categories)){
-                is_float = true;
-                state = 13;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER_BEGIN, char_categories)){
-                integer_part = integer_part * 10 + digit2int(ch);
-                state = 9;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER9, char_categories)){
-                state = 11;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER2, char_categories)){
-                precision = ch; is_float = true;
-                state = 1;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER10, char_categories)){
-                state = 16;
-                there_is_jump = true;
-            }
-             else if(belongs(NUMBER11, char_categories)){
-                state = 12;
-                there_is_jump = true;
-            }
-
-            break;
-        case 11:
             if(belongs(NUMBER5, char_categories)){
-                integer_part = (integer_part << 1) + digit2int(ch);
+                integer_part = (integer_part << 3) + digit2int(ch);
                 state = 4;
                 there_is_jump = true;
             }
 
             break;
+        case 11:
+            if(belongs(NUMBER_BEGIN, char_categories)){
+                fractional_part = fractional_part / 10 + digit2int(ch); frac_part_num_digits += 1;
+                state = 2;
+                there_is_jump = true;
+            }
+
+            break;
         case 12:
-            if(belongs(NUMBER6, char_categories)){
-                integer_part = (integer_part << 3) + digit2int(ch);
+            if(belongs(NUMBER_BEGIN, char_categories)){
+                exponent = exponent * 10 + digit2int(ch);
                 state = 5;
                 there_is_jump = true;
             }
@@ -569,32 +535,29 @@ bool LexerScaner::number_proc(){
             break;
         case 13:
             if(belongs(NUMBER_BEGIN, char_categories)){
-                fractional_part = fractional_part / 10 + digit2int(ch); frac_part_num_digits += 1;
-                state = 3;
+                integer_part = integer_part * 10 + digit2int(ch);
+                state = 7;
                 there_is_jump = true;
             }
 
             break;
         case 14:
-            if(belongs(NUMBER_BEGIN, char_categories)){
-                exponent = exponent * 10 + digit2int(ch);
+            if(belongs(NUMBER6, char_categories)){
+                integer_part = (integer_part << 4) + digit2int(ch);
                 state = 6;
                 there_is_jump = true;
             }
 
             break;
         case 15:
-            if(belongs(NUMBER_BEGIN, char_categories)){
-                integer_part = integer_part * 10 + digit2int(ch);
-                state = 9;
+            if(belongs(NUMBER11, char_categories)){
+                exp_sign = setexp(ch);
+                state = 12;
                 there_is_jump = true;
             }
-
-            break;
-        case 16:
-            if(belongs(NUMBER7, char_categories)){
-                integer_part = (integer_part << 4) + digit2int(ch);
-                state = 7;
+             else if(belongs(NUMBER_BEGIN, char_categories)){
+                exponent = exponent * 10 + digit2int(ch);
+                state = 5;
                 there_is_jump = true;
             }
 
