@@ -1,3 +1,12 @@
+/*
+    File:    char_trie.cpp
+    Created: 06 November 2016 at 12:20 Moscow time
+    Author:  Гаврилов Владимир Сергеевич
+    E-mails: vladimir.s.gavrilov@gmail.com
+             gavrilov.vladimir.s@mail.ru
+             gavvs1977@yandex.ru
+*/
+
 #include "../include/char_conv.h"
 #include "../include/char_trie.h"
 #include <vector>
@@ -6,10 +15,13 @@
 #include <algorithm>
 #include <string>
 #include <set>
+#include <memory>
+#include <cstdio>
 
-char32_t* Char_trie::get_cstring(size_t idx){
-    size_t id_len = node_buffer[idx].path_len;
-    char32_t* p = new char32_t[id_len + 1];
+std::u32string Char_trie::get_string(size_t idx)
+{
+    size_t id_len  = node_buffer[idx].path_len;
+    auto   p       = std::make_unique<char32_t[]>(id_len + 1);
     p[id_len] = 0;
     size_t current = idx;
     size_t i       = id_len-1;
@@ -23,22 +35,19 @@ char32_t* Char_trie::get_cstring(size_t idx){
     for( ; current; current = node_buffer[current].parent){
         p[i--] = node_buffer[current].c;
     }
-    return p;
-}
 
-std::u32string Char_trie::get_string(size_t idx){
-    char32_t* p = get_cstring(idx);
-    std::u32string s = std::u32string(p);
-    delete [] p;
+    std::u32string s = std::u32string(p.get());
     return s;
 }
 
-void Char_trie::print(size_t idx){
+void Char_trie::print(size_t idx)
+{
     std::u32string s32 = get_string(idx);
     std::string    s8  = u32string_to_utf8(s32);
     printf("%s",s8.c_str());
 }
 
-size_t Char_trie::get_length(size_t idx){
+size_t Char_trie::get_length(size_t idx)
+{
     return node_buffer[idx].path_len;
 }

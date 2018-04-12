@@ -1,3 +1,12 @@
+/*
+    File:    file_contents.cpp
+    Author:  Гаврилов Владимир Сергеевич
+    Created: 4 February 2016, 13:10
+    e-mails: vladimir.s.gavrilov@gmail.com,
+             gavrilov.vladimir.s@mail.ru,
+             gavvs1977@yandex.ru
+*/
+
 #include "../include/file_contents.h"
 #include "../include/fsize.h"
 #include <cstdio>
@@ -14,7 +23,8 @@ private:
     FILE* fptr = 0;
 };
 
-Contents get_contents(const char* name){
+Contents get_contents(const char* name)
+{
     Contents result = std::make_pair(Get_contents_return_code::Normal, "");
     Binary_file f {name};
     FILE* fptr = f.get();

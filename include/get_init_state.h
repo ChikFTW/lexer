@@ -1,3 +1,12 @@
+/*
+    File:    get_init_state.h
+    Created: 13 December 2015 at 09:05 Moscow time
+    Author:  Гаврилов Владимир Сергеевич
+    E-mails: vladimir.s.gavrilov@gmail.com
+             gavrilov.vladimir.s@mail.ru
+             gavvs1977@yandex.ru
+*/
+
 #ifndef GET_INIT_STATE_H
 #define GET_INIT_STATE_H
 

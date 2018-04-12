@@ -1,3 +1,12 @@
+/*
+    File:    trie.h
+    Created: 13 December 2015 at 09:05 Moscow time
+    Author:  Гаврилов Владимир Сергеевич
+    E-mails: vladimir.s.gavrilov@gmail.com
+             gavrilov.vladimir.s@mail.ru
+             gavvs1977@yandex.ru
+*/
+
 #ifndef TRIE_H
 #define TRIE_H
 
@@ -13,7 +22,7 @@ class Trie {
 public:
     Trie<T>();
 
-    ~Trie() = default;
+    virtual ~Trie<T>()        = default;
 
     Trie(const Trie<T>& orig) = default;
 
@@ -84,7 +93,7 @@ protected:
 
 template<typename T>
 Trie<T>::Trie(){
-    node_buffer = std::vector<node>(1);
+    node_buffer   = std::vector<node>(1);
     nodes_indeces = std::vector<size_t>();
 }
 

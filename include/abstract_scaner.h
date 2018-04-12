@@ -1,5 +1,14 @@
-#ifndef ABSTRACT_Abstract_scaner_H
-#define ABSTRACT_Abstract_scaner_H
+/*
+    File:    abstract_scaner.h
+    Created: 13 December 2015 at 09:05 Moscow time
+    Author:  Гаврилов Владимир Сергеевич
+    E-mails: vladimir.s.gavrilov@gmail.com
+             gavrilov.vladimir.s@mail.ru
+             gavvs1977@yandex.ru
+*/
+
+#ifndef ABSTRACT_SCANER_H
+#define ABSTRACT_SCANER_H
 
 #include <string>
 #include <memory>
@@ -7,14 +16,15 @@
 #include "../include/trie.h"
 #include "../include/location.h"
 #include "../include/errors_and_tries.h"
+#include "../include/char_trie.h"
 
 template<typename Lexem_type>
-class Abstract_scaner{
+class Scaner{
 public:
-    Abstract_scaner<Lexem_type>() = default;
-    Abstract_scaner(Location_ptr location, const Errors_and_tries& et);
-    Abstract_scaner(const Abstract_scaner<Lexem_type>& orig) = default;
-    virtual ~Abstract_scaner() = default;
+    Scaner<Lexem_type>()                   = default;
+    Scaner(const Location_ptr& location, const Errors_and_tries& et);
+    Scaner(const Scaner<Lexem_type>& orig) = default;
+    virtual ~Scaner<Lexem_type>()          = default;
     /*  Function back() return the current lexem into the input stream. */
     void back();
     /* Function current_lexem() returns information about current lexem,
@@ -22,7 +32,8 @@ public:
     virtual Lexem_type current_lexem() = 0;
     /* Function lexem_begin_line_number() returns the line number
      * at which the lexem starts. */
-    size_t lexem_begin_line_number();
+    size_t    lexem_begin_line_number() const;
+    char32_t* lexem_begin_ptr() const;
 protected:
     int                          state; /* the current state of the current automaton */
 
@@ -51,21 +62,32 @@ protected:
 };
 
 template<typename Lexem_type>
-Abstract_scaner<Lexem_type>::Abstract_scaner(Location_ptr location, const Errors_and_tries& et){
-    ids = et.ids_trie; strs = et.strs_trie; en = et.ec;
-    loc = location;
-    lexem_begin = location->pcurrent_char;
+Scaner<Lexem_type>::Scaner(const Location_ptr& location, const Errors_and_tries& et)
+{
+    ids              = et.ids_trie;
+    strs             = et.strs_trie;
+    en               = et.ec;
+    loc              = location;
+    lexem_begin      = location->pcurrent_char;
     lexem_begin_line = 1;
 }
 
 template<typename Lexem_type>
-void Abstract_scaner<Lexem_type>::back(){
+void Scaner<Lexem_type>::back()
+{
     loc->pcurrent_char = lexem_begin;
-    loc->current_line =  lexem_begin_line;
+    loc->current_line  = lexem_begin_line;
 }
 
 template<typename Lexem_type>
-size_t Abstract_scaner<Lexem_type>::lexem_begin_line_number(){
+size_t Scaner<Lexem_type>::lexem_begin_line_number() const
+{
     return lexem_begin_line;
+}
+
+template<typename Lexem_type>
+char32_t* Scaner<Lexem_type>::lexem_begin_ptr() const
+{
+    return lexem_begin;
 }
 #endif

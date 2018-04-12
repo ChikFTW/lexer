@@ -1,3 +1,12 @@
+/*
+    File:    file_contents.h
+    Author:  Гаврилов Владимир Сергеевич
+    Created: 4 February 2016, 13:10
+    e-mails: vladimir.s.gavrilov@gmail.com,
+             gavrilov.vladimir.s@mail.ru,
+             gavvs1977@yandex.ru
+*/
+
 #ifndef FILE_CONTENTS_H
 #define FILE_CONTENTS_H
 #include <string>
