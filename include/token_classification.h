@@ -1,10 +1,8 @@
 /*
     File:    token_classification.h
     Created: 25 March 2018 at 15:45 Moscow time
-    Author:  Гаврилов Владимир Сергеевич
-    E-mails: vladimir.s.gavrilov@gmail.com
-             gavrilov.vladimir.s@mail.ru
-             gavvs1977@yandex.ru
+    Author:  Chikmakrev Ilya
+    E-mails: ichikmarev@gmail.com
 */
 
 #ifndef TOKEN_CLASSIFICATION_H
@@ -37,6 +35,24 @@ enum class Lexem_category : unsigned short{
     Kw_read,               Kw_print,              Kw_match,
     Pattern_is,            Br_dots,               Kw_from,
     Kw_const,              Open_curly_bracket,    Closed_curly_bracket,
+    Int_reg, 		   Float_reg,
+    Mov8fromM, 		   Mov16fromM,		  Mov32fromM,
+    Mov64fromM,
+    Mov, 		   Movs, 		  Movu,
+    Mov8toM, 		   Mov16toM, 		  Mov32toM,
+    Mov64toM,
+    IWithStack,
+    IArith3, 		   IDivmod,	  	  IBitwise3,
+    INot,
+    Fmov,		   Fmov32fromM,           Fmov64fromM,
+    Fmov70fromM, 	   Fmov32toM,             Fmov64toM,
+    Fmov80toM, 		
+    FWithStack,
+    FArith3,
+    Cmpf,		   Round,		  Frac,
+    JmpCallA, 		   JmpCallR, 	          CJmpCallA,
+    CJmpCallR,		   Ret, 		  CRet,
+    RetWithClean,	   CRetWithClean,	  Trap
 };
 
 Lexem_category get_lexem_category(const Main_lexem_info& li);
